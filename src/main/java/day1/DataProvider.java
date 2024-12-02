@@ -7,29 +7,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataProvider {
-    private static final String testDataFilepath = "day1/test_data.txt";
-    private final List<Integer> testDataAMeasurements = new ArrayList<>();
-    private final List<Integer> testDataBMeasurements = new ArrayList<>();
+    private final List<Integer> aLocationIds = new ArrayList<>();
+    private final List<Integer> bLocationIds = new ArrayList<>();
 
-    public List<Integer> getTestDataBMeasurements() {
-        return testDataBMeasurements;
+    public List<Integer> getALocationIds() {
+        return aLocationIds;
     }
 
-    public List<Integer> getTestDataAMeasurements() {
-        return testDataAMeasurements;
+    public List<Integer> getBLocationIds() {
+        return bLocationIds;
     }
 
-    public int getTestDataAnswer() {
+    public int getTestExpectedDistance() {
         return 11;
     }
 
-    public void loadData() throws IOException {
-        var testData = DataLoader.loadData(testDataFilepath);
+    public int getTestExpectedSimilarityScore() {
+        return 31;
+    }
+
+    public void loadData(String resourcePath) throws IOException {
+        var testData = DataLoader.loadData(resourcePath);
         var lines = testData.split("\n");
         for (var line : lines) {
             var parts = line.split(" ");
-            testDataAMeasurements.add(Integer.parseInt(parts[0]));
-            testDataBMeasurements.add(Integer.parseInt(parts[parts.length - 1]));
+            aLocationIds.add(Integer.parseInt(parts[0]));
+            bLocationIds.add(Integer.parseInt(parts[parts.length - 1]));
         }
     }
 }
