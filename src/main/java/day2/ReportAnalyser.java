@@ -3,37 +3,22 @@ package day2;
 import java.util.Collection;
 import java.util.List;
 
-public class ReportAnalyser {
-
-    public static boolean isSafe(Collection<Integer> levels) {
-        if (levels == null) throw new IllegalArgumentException("levels cannot be null");
-        if (levels.size() < 2) return true;
-
-        var iter = levels.iterator();
-        var previous = iter.next();
-        var current = iter.next();
-        if (isSkipping(previous, current)) return false;
-        var increasing = previous < current;
-        while (iter.hasNext()) {
-            previous = current;
-            current = iter.next();
-            if (isSkipping(previous, current) || isIncreasing(previous, current) != increasing) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public static Long getSafeReportsNumber(List<List<Integer>> reports) {
-        return reports.stream().filter(ReportAnalyser::isSafe).count();
-    }
-
-    private static boolean isSkipping(int a, int b) {
+public abstract class ReportAnalyser {
+    protected static boolean isFar(int a, int b) {
         var diff = Math.abs(a - b);
         return diff < 1 || diff > 3;
     }
 
-    private static boolean isIncreasing(int a, int b) {
+    protected static boolean isIncreasing(int a, int b) {
         return a < b;
     }
+
+    protected Long getSafeReportsNumber(List<List<Integer>> reports) {
+        if (reports == null) {
+            throw new IllegalArgumentException("reports cannot be null");
+        }
+        return reports.stream().filter(this::isSafe).count();
+    }
+
+    protected abstract boolean isSafe(Collection<Integer> report);
 }

@@ -14,9 +14,14 @@ public class Main {
         } catch (IOException _) {
             System.err.println("Could not load puzzle input.");
         }
-        var result = ReportAnalyser.getSafeReportsNumber(dataProvider.getReports());
-        System.out.println(MessageFormat.format("The number of safe reports is {0}.", result));
+        var nonTolerantResult = new NonTolerantReportAnalyser().getSafeReportsNumber(dataProvider.getReports());
+        var tolerantResult = new TolerantReportAnalyser().getSafeReportsNumber(dataProvider.getReports());
+        System.out.println(
+                MessageFormat.format(
+                        "The number of safe reports is {0} and {1} applying tolerance.",
+                        nonTolerantResult,
+                        tolerantResult
+                )
+        );
     }
 }
-// 387 too high
-// 346 too high

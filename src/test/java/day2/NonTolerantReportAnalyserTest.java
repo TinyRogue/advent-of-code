@@ -14,8 +14,9 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class ReportAnalyserTest {
+class NonTolerantReportAnalyserTest {
     private final static ReportsDataProvider dataProvider = new ReportsDataProvider();
+    private final static ReportAnalyser reportAnalyser = new NonTolerantReportAnalyser();
 
     @BeforeAll
     static void setUp() throws IOException {
@@ -24,21 +25,21 @@ class ReportAnalyserTest {
 
     private static Stream<Arguments> getSampleData() {
         var reports = dataProvider.getReports();
-        var expected = dataProvider.getSampleDataRespectiveAnswers();
+        var expected = ReportsDataProvider.NonTolerant.getSampleDataRespectiveAnswers();
         return IntStream.range(0, reports.size()).mapToObj(i -> Arguments.of(expected.get(i), reports.get(i)));
     }
 
     @ParameterizedTest
     @MethodSource("getSampleData")
     void isSafeTest(boolean expected, List<Integer> data) {
-        assertEquals(expected, ReportAnalyser.isSafe(data));
+        assertEquals(expected, reportAnalyser.isSafe(data));
     }
 
     @Test
     void getSafeReportNumberTest() {
         assertEquals(
-                dataProvider.getSampleDataTotalResults(),
-                ReportAnalyser.getSafeReportsNumber(dataProvider.getReports())
+                ReportsDataProvider.NonTolerant.getSampleDataTotalResults(),
+                reportAnalyser.getSafeReportsNumber(dataProvider.getReports())
         );
     }
 }
