@@ -1,15 +1,16 @@
 package day1;
 
+import utils.DataType;
+
 import java.io.IOException;
 import java.text.MessageFormat;
 
 public class Main {
-    private final static String puzzleInputPath = "day1/puzzle_input.txt";
 
     public static void main(String[] args) {
-        var dataProvider = new DataProvider();
+        var dataProvider = new LocationsDataProvider();
         try {
-            dataProvider.loadData(puzzleInputPath);
+            dataProvider.loadData(DataType.PUZZLE_INPUT);
         } catch (IOException e) {
             System.err.println("Puzzle input could not be loaded.");
             return;
