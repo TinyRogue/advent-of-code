@@ -2,14 +2,12 @@ package day1;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class DistanceMeasureTest {
+class SimilarityCheckerTest {
     private static final DataProvider dataProvider = new DataProvider();
     private static final String testDataFilepath = "day1/test_data.txt";
 
@@ -18,21 +16,11 @@ public class DistanceMeasureTest {
         dataProvider.loadData(testDataFilepath);
     }
 
-    @ParameterizedTest
-    @CsvSource({
-            "1, 2, 1",
-            "2, 1, 1",
-            "2, 2, 0",
-    })
-    void measureDistanceBetweenTwoPointsTest(int a, int b, int expected) {
-        assertEquals(expected, DistanceMeasure.distanceBetween(a, b));
-    }
-
     @Test
-    void totalDistance() {
+    void score() {
         assertEquals(
-                dataProvider.getTestExpectedDistance(),
-                DistanceMeasure.totalDistanceBetween(
+                dataProvider.getTestExpectedSimilarityScore(),
+                SimilarityChecker.score(
                         dataProvider.getALocationIds(),
                         dataProvider.getBLocationIds()
                 )
