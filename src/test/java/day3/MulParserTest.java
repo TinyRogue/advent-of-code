@@ -18,6 +18,11 @@ class MulParserTest {
 
     @Test
     void parseWithSampleDataTest() {
-        assertEquals(161, MulParser.parse(dataProvider.memoryData()));
+        assertEquals(dataProvider.getParseSampleResult(), MulParser.parse(dataProvider.memoryData()));
+    }
+
+    @Test
+    void instructedParseWithSampleDataTest() {
+        assertEquals(dataProvider.getInstructedParseSampleResult(), MulParser.instructedParse(dataProvider.memoryData()));
     }
 }

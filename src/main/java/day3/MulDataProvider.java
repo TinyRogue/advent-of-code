@@ -15,6 +15,14 @@ public class MulDataProvider implements DataProvider {
         return memoryData;
     }
 
+    public Long getParseSampleResult() {
+        return 161L;
+    }
+
+    public Long getInstructedParseSampleResult() {
+        return 48L;
+    }
+
     @Override
     public void loadData(DataType type) throws IOException {
         var resourcePath = type == DataType.PUZZLE_INPUT ? PUZZLE_INPUT_PATH : SAMPLE_DATA_INPUT_PATH;

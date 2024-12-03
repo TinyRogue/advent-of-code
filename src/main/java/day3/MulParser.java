@@ -14,4 +14,8 @@ public class MulParser {
                 .reduce(1L, (subtotal, current) -> subtotal * current)
         ).reduce(0L, Long::sum);
     }
+
+    public static Long instructedParse(String input) {
+        return 0L;
+    }
 }
