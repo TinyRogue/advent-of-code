@@ -1,6 +1,8 @@
 package day3;
 
+import java.util.Arrays;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class MulParser {
 
@@ -16,6 +18,7 @@ public class MulParser {
     }
 
     public static Long instructedParse(String input) {
-        return 0L;
+        var doParts = Arrays.stream(input.split("do\\(\\)")).map(toCut -> toCut.split("don't\\(\\)")[0]).collect(Collectors.joining());
+        return parse(doParts);
     }
 }

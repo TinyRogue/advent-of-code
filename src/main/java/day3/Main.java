@@ -13,6 +13,7 @@ public class Main {
             System.out.println("No puzzle input");
         }
         var result = MulParser.parse(mulDataProvider.memoryData());
-        System.out.println("The multiplication result is: " + result);
+        var instructedResult = MulParser.instructedParse(mulDataProvider.memoryData());
+        System.out.printf("Multiplication result is %d and instructed result is %d\n", result, instructedResult);
     }
 }
