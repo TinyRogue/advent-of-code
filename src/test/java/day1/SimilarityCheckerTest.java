@@ -13,7 +13,7 @@ class SimilarityCheckerTest {
 
     @BeforeAll
     static void setUp() throws IOException {
-        LOCATIONS_DATA_PROVIDER.loadData(DataType.SAMPLE);
+        LOCATIONS_DATA_PROVIDER.loadData(DataType.SAMPLE_PART_1);
     }
 
     @Test

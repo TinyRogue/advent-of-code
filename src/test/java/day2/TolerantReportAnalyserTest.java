@@ -20,7 +20,7 @@ class TolerantReportAnalyserTest {
 
     @BeforeAll
     static void setUp() throws IOException {
-        dataProvider.loadData(DataType.SAMPLE);
+        dataProvider.loadData(DataType.SAMPLE_PART_1);
     }
 
     private static Stream<Arguments> getSampleData() {
