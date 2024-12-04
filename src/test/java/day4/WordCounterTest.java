@@ -1,6 +1,5 @@
 package day4;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import utils.DataType;
 
@@ -23,14 +22,24 @@ class WordCounterTest {
             S..X.X....S
             """;
     private static final long edgeTestResult = 16;
-
-    @BeforeAll
-    static void setUp() throws IOException {
-        gridDataProvider.loadData(DataType.SAMPLE_PART_1);
-    }
+    private static final String edgeXTestGrid = """
+            M.M....S.M
+            .A......A.
+            S.S....S.M
+            ..........
+            ..........
+            ..........
+            ..........
+            ..........
+            M.S....S.S
+            .A......A.
+            M.S....M.M
+            """;
+    private static final long edgeXResult = 4;
 
     @Test
-    void countTest() {
+    void countTest() throws IOException {
+        gridDataProvider.loadData(DataType.SAMPLE_PART_1);
         assertEquals(
                 edgeTestResult,
                 WordCounter.count("XMAS", edgeTestGrid.split("\n"))
@@ -38,6 +47,19 @@ class WordCounterTest {
         assertEquals(
                 gridDataProvider.getSampleWordCountResult(),
                 WordCounter.count(gridDataProvider.getSoughtWord(), gridDataProvider.getGrid())
+        );
+    }
+
+    @Test
+    void countXTest() throws IOException {
+        gridDataProvider.loadData(DataType.SAMPLE_PART_2);
+        assertEquals(
+                edgeXResult,
+                WordCounter.countXShaped("MAS", edgeXTestGrid.split("\n"))
+        );
+        assertEquals(
+                gridDataProvider.getSampleWordCountXResult(),
+                WordCounter.countXShaped(gridDataProvider.getSoughtXWord(), gridDataProvider.getGrid())
         );
     }
 }

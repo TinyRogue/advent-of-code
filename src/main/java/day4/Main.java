@@ -14,6 +14,10 @@ public class Main {
             return;
         }
         var result = WordCounter.count(gridDataProvider.getSoughtWord(), gridDataProvider.getGrid());
-        System.out.println("There are " + result + " XMASes!");
+        var xResult = WordCounter.countXShaped(gridDataProvider.getSoughtXWord(), gridDataProvider.getGrid());
+        System.out.println(
+                "There are " + result + " " + gridDataProvider.getSoughtWord() + "es and " + xResult + " X shaped " +
+                        gridDataProvider.getSoughtXWord() + "es!"
+        );
     }
 }
