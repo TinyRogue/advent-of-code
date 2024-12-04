@@ -5,13 +5,13 @@ import java.util.Collection;
 public class NonTolerantReportAnalyser extends ReportAnalyser {
     public boolean isSafe(Collection<Integer> levels) {
         if (levels == null) throw new IllegalArgumentException("levels cannot be null");
-        if (levels.size() < 3) return true;
+        if (levels.size() < 2) return true;
 
         final var iter = levels.iterator();
         var previous = iter.next();
         var current = iter.next();
         if (isFar(previous, current)) return false;
-        final var increasing = previous < current;
+        final var increasing = isIncreasing(previous, current);
         while (iter.hasNext()) {
             previous = current;
             current = iter.next();
