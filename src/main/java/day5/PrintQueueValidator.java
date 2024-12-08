@@ -1,10 +1,7 @@
 package day5;
 
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class PrintQueueValidator {
@@ -27,14 +24,17 @@ public class PrintQueueValidator {
         );
     }
 
+    public static List<Integer> parseSequence(final String sequence) {
+        return Arrays.stream(sequence.split(",")).map(Integer::parseInt).toList();
+    }
+
     /**
-     * @param ordering is the update sequence in format "pageA, pageB, pageC..."
+     * @param sequence is the update sequence in format "pageA, pageB, pageC..."
      * @return true if the update sequence is aligning with the rules
      */
-    public boolean isValid(final String ordering) {
-        var updateSequence = Arrays.stream(ordering.split(",")).map(Integer::parseInt).toList();
+    public boolean isValid(final List<Integer> sequence) {
         var usedElements = new HashSet<Integer>();
-        for (var element : updateSequence) {
+        for (var element : sequence) {
             var mustGoBefore = consecutivePages.get(element);
             if (mustGoBefore != null && usedElements.stream().anyMatch(mustGoBefore::contains)) {
                 return false;
@@ -42,5 +42,17 @@ public class PrintQueueValidator {
             usedElements.add(element);
         }
         return true;
+    }
+
+    public List<Integer> correctOrdering(final List<Integer> sequence) {
+        var result = new ArrayList<>(sequence);
+        result.sort((a, b) -> {
+            var rules = consecutivePages.get(a);
+            if (rules != null && rules.contains(b)) {
+                return -1;
+            }
+            return 1;
+        });
+        return result;
     }
 }

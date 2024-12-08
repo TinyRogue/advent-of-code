@@ -32,9 +32,25 @@ class PrintQueueValidatorTest {
         );
     }
 
+    public static Stream<Arguments> correctOrderingData() {
+        return Stream.of(
+                Arguments.of("97,75,47,61,53", "75,97,47,61,53"),
+                Arguments.of("61,29,13", "61,13,29"),
+                Arguments.of("97,75,47,29,13", "97,13,75,29,47")
+        );
+    }
+
     @ParameterizedTest
     @MethodSource("sampleTestData")
     void isValid(boolean expected, String pagesUpdate) {
-        assertEquals(expected, printQueueValidator.isValid(pagesUpdate));
+        assertEquals(expected, printQueueValidator.isValid(PrintQueueValidator.parseSequence(pagesUpdate)));
+    }
+
+    @ParameterizedTest
+    @MethodSource("correctOrderingData")
+    void correctOrderingTest(String expected, String value) {
+        var parsedExpected = PrintQueueValidator.parseSequence(expected);
+        var parsedValue = PrintQueueValidator.parseSequence(value);
+        assertEquals(parsedExpected, printQueueValidator.correctOrdering(parsedValue));
     }
 }
