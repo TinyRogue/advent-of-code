@@ -1,34 +1,54 @@
 package day6;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class GuardMovementPredictor {
 
-    public static long pathTravelledLength(final String[] map) {
+    private static Map<Direction, Set<Point>> getTraversedPath(final String[] map) {
         Point position = getStartingPosition(map);
         if (position == null) {
             throw new IllegalArgumentException("No start position found");
         }
 
-        var stepsTaken = new HashSet<>(Set.of(position));
         var currentDirection = Direction.NORTH;
+        var stepsTaken = new HashMap<Direction, Set<Point>>(Map.of(
+                Direction.NORTH, new HashSet<>(Set.of(position)),
+                Direction.EAST, new HashSet<>(),
+                Direction.SOUTH, new HashSet<>(),
+                Direction.WEST, new HashSet<>()
+        ));
+
         while (true) {
             var nextStep = position.move(currentDirection);
-            if (isEnd(nextStep, map)) break;
+            if (isEnd(nextStep, map)) return stepsTaken;
             if (!isLegal(nextStep, map)) {
                 currentDirection = nextDirection(currentDirection);
                 continue;
             }
+            if (isLooped(stepsTaken, currentDirection, nextStep)) throw new LoopException();
             position = nextStep;
-            stepsTaken.add(position);
+            stepsTaken.get(currentDirection).add(position);
         }
+    }
 
-        return stepsTaken.size();
+    public static long pathTravelledLength(final String[] map) {
+        return getTraversedPath(map).values().stream().flatMap(Collection::stream).distinct().count();
     }
 
     public static int countLoopingObstructions(String[] map) {
-        return 0;
+        var traversedPath = getTraversedPath(map).values().stream().flatMap(Collection::stream).filter(el -> !el.equals(getStartingPosition(map))).distinct().toList();
+
+        var obstacleLoop = 0;
+        for (var point : traversedPath) {
+            var editableMap = Arrays.copyOf(map, map.length);
+            editableMap[point.y()] = editableMap[point.y()].substring(0, point.x()) + "#" + editableMap[point.y()].substring(point.x() + 1);
+            try {
+                getTraversedPath(editableMap);
+            } catch (LoopException e) {
+                obstacleLoop++;
+            }
+        }
+        return obstacleLoop;
     }
 
     private static Direction nextDirection(final Direction currentDirection) {
@@ -57,5 +77,9 @@ public class GuardMovementPredictor {
 
     private static boolean isLegal(final Point point, final String[] map) {
         return !isEnd(point, map) && map[point.y()].charAt(point.x()) != '#';
+    }
+
+    private static boolean isLooped(final Map<Direction, Set<Point>> visited, final Direction nextDir, final Point nextStep) {
+        return visited.getOrDefault(nextDir, new HashSet<>()).contains(nextStep);
     }
 }

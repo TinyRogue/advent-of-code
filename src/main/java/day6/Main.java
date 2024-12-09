@@ -15,5 +15,8 @@ public class Main {
 
         var result = GuardMovementPredictor.pathTravelledLength(mapDataProvider.getMap());
         System.out.println("Unique travelled points number is: " + result);
+
+        var part2Res = GuardMovementPredictor.countLoopingObstructions(mapDataProvider.getMap());
+        System.out.println("There are " + part2Res + " possibilities to place obstruction and loop the guard.");
     }
 }
