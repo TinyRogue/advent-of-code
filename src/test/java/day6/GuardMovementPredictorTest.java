@@ -44,6 +44,11 @@ class GuardMovementPredictorTest {
 
     @Test
     void pathTravelledLengthTest() {
-        assertEquals(MapDataProvider.SAMPLE_DATA_RESULT, GuardMovementPredictor.pathTravelledLength(mapDataProvider.getMap()));
+        assertEquals(MapDataProvider.SAMPLE_DATA_PART_1_RESULT, GuardMovementPredictor.pathTravelledLength(mapDataProvider.getMap()));
+    }
+
+    @Test
+    void countLoopingObstructionsTest() {
+        assertEquals(MapDataProvider.SAMPLE_DATA_PART_2_RESULT, GuardMovementPredictor.countLoopingObstructions(mapDataProvider.getMap()));
     }
 }
