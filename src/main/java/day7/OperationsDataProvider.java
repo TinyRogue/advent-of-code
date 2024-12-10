@@ -17,6 +17,7 @@ public class OperationsDataProvider implements DataProvider {
     private static final Path PUZZLE_INPUT_PATH = Path.of("day7", "puzzle_input.txt");
     private static final Path SAMPLE_DATA_INPUT_PATH = Path.of("day7", "test_data.txt");
     private static final short SAMPLE_RESULT = 3749;
+    private static final short SAMPLE_RESULT_WITH_CONCAT = 11387;
     private List<Map.Entry<Long, List<Long>>> operations = new ArrayList<>();
 
     public List<Map.Entry<Long, List<Long>>> getOperations() {
@@ -25,6 +26,10 @@ public class OperationsDataProvider implements DataProvider {
 
     public short getSampleResult() {
         return SAMPLE_RESULT;
+    }
+
+    public short getSampleResultWithConcat() {
+        return SAMPLE_RESULT_WITH_CONCAT;
     }
 
     @Override
