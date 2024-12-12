@@ -19,6 +19,11 @@ class AntinodeMeterTest {
 
     @Test
     void signalImpact() {
-        assertEquals(mapDataProvider.getSampleResult(), AntinodeMeter.signalImpact(mapDataProvider.getMap()));
+        assertEquals(mapDataProvider.getSampleResult(), AntinodeMeter.signalImpact(mapDataProvider.getMap(), false));
+    }
+
+    @Test
+    void harmonicSignalImpact() {
+        assertEquals(mapDataProvider.getHarmonicSampleResult(), AntinodeMeter.signalImpact(mapDataProvider.getMap(), true));
     }
 }

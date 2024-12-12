@@ -5,20 +5,22 @@ import java.util.stream.Collectors;
 
 public class AntinodeMeter {
 
-    public static long signalImpact(final String[] map) {
-        Map<Character, List<Position>> antennas = getAntennas(map);
-        var antinodes = getAntinodePositions(antennas);
-        return limitAntinodesOverArea(antinodes, map.length, map[0].length()).size();
+    public static long signalImpact(final String[] map, final boolean includeHarmonics) {
+        var mapHeight = map.length;
+        var mapWidth = map[0].length();
+        var antennas = getAntennas(map);
+        if (includeHarmonics) {
+            return getHarmonicAntinodePositions(antennas, mapHeight, mapWidth).size();
+        }
+        return getAntinodePositions(antennas, mapHeight, mapWidth).size();
     }
 
-    private static Set<Position> limitAntinodesOverArea(final Set<Position> antinodes, final int maxHeight, final int maxWidth) {
-        return antinodes.stream()
-                .filter(antinode -> antinode.x() >= 0 && antinode.x() < maxWidth && antinode.y() >= 0 && antinode.y() < maxHeight)
-                .collect(Collectors.toSet());
+    private static boolean antinodeWithingArea(final Position antinode, final int maxHeight, final int maxWidth) {
+        return antinode.x() >= 0 && antinode.x() < maxWidth && antinode.y() >= 0 && antinode.y() < maxHeight;
     }
 
-    private static Set<Position> getAntinodePositions(final Map<Character, List<Position>> antennas) {
-        var antinodes = antennas.keySet().stream().collect(Collectors.toMap(antenna -> antenna, _ -> new HashSet<Position>()));
+    private static Set<Position> getHarmonicAntinodePositions(final Map<Character, List<Position>> antennas, final int maxHeight, final int maxWidth) {
+        Set<Position> antinodes = new HashSet<>();
         for (var antenna : antennas.entrySet()) {
             var positions = antenna.getValue();
             for (int i = 0; i < positions.size(); i++) {
@@ -28,11 +30,39 @@ public class AntinodeMeter {
                     var a2 = positions.get(j);
                     var vDistance = a1.y() - a2.y();
                     var hDistance = a1.x() - a2.x();
-                    antinodes.get(antenna.getKey()).add(a1.offset(hDistance, vDistance));
+                    var antinode = a1.offset(hDistance, vDistance);
+                    antinodes.add(a1);
+                    while (antinodeWithingArea(antinode, maxHeight, maxWidth)) {
+                        antinodes.add(antinode);
+                        antinode = antinode.offset(hDistance, vDistance);
+                    }
                 }
             }
         }
-        return antinodes.values().stream().flatMap(Collection::stream).collect(Collectors.toSet());
+
+        return antinodes;
+    }
+
+    private static Set<Position> getAntinodePositions(final Map<Character, List<Position>> antennas, final int maxHeight, final int maxWidth) {
+        Set<Position> antinodes = new HashSet<>();
+        for (var antenna : antennas.entrySet()) {
+            var positions = antenna.getValue();
+            for (int i = 0; i < positions.size(); i++) {
+                for (int j = 0; j < positions.size(); j++) {
+                    if (i == j) continue;
+                    var a1 = positions.get(i);
+                    var a2 = positions.get(j);
+                    var vDistance = a1.y() - a2.y();
+                    var hDistance = a1.x() - a2.x();
+                    var antinode = a1.offset(hDistance, vDistance);
+                    if (!antinodeWithingArea(antinode, maxHeight, maxWidth)) {
+                        continue;
+                    }
+                    antinodes.add(antinode);
+                }
+            }
+        }
+        return antinodes;
     }
 
     private static Map<Character, List<Position>> getAntennas(final String[] map) {

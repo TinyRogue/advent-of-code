@@ -14,7 +14,8 @@ public class Main {
             System.exit(1);
         }
 
-        var antinodes = AntinodeMeter.signalImpact(mapDataProvider.getMap());
-        System.out.println("Number of antinodes is " + antinodes);
+        var antinodes = AntinodeMeter.signalImpact(mapDataProvider.getMap(), false);
+        var harmonicAntinodes = AntinodeMeter.signalImpact(mapDataProvider.getMap(), true);
+        System.out.println("Number of antinodes is " + antinodes + ", including harmonics it increases to " + harmonicAntinodes + ".");
     }
 }

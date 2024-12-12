@@ -9,11 +9,16 @@ import java.io.IOException;
 public class MapDataProvider implements DataProvider {
     private static final String PUZZLE_INPUT_PATH = "day8/puzzle_input.txt";
     private static final String SAMPLE_DATA_INPUT_PATH = "day8/test_data.txt";
-    private static final long SAMPLE_RESULT = 14;
+    private static final short SAMPLE_RESULT = 14;
+    private static final short HARMONIC_SAMPLE_RESULT = 34;
     private String[] map;
 
-    public long getSampleResult() {
+    public short getSampleResult() {
         return SAMPLE_RESULT;
+    }
+
+    public short getHarmonicSampleResult() {
+        return HARMONIC_SAMPLE_RESULT;
     }
 
     public String[] getMap() {
