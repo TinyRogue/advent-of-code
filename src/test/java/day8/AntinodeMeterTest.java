@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AntinodeMeterTest {
     private static final MapDataProvider mapDataProvider = new MapDataProvider();
-    private static final AntinodeMeter antinodeMeter = new AntinodeMeter();
 
 
     @BeforeAll
@@ -20,6 +19,6 @@ class AntinodeMeterTest {
 
     @Test
     void signalImpact() {
-        assertEquals(mapDataProvider.getSampleResult(), antinodeMeter.signalImpact(mapDataProvider.getMap()));
+        assertEquals(mapDataProvider.getSampleResult(), AntinodeMeter.signalImpact(mapDataProvider.getMap()));
     }
 }
