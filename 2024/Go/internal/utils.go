@@ -17,8 +17,8 @@ func Abs[T constraints.Float | constraints.Signed](value T) T {
 }
 
 func ReadPuzzleInput(day int) ([]byte, error) {
-	filepath.Join(DataDirectory, fmt.Sprintf("day%d.txt", day), "puzzle_input.txt")
-	content, err := os.ReadFile("./resources/day1/puzzle_input.txt")
+	path := filepath.Join(DataDirectory, fmt.Sprintf("day%d", day), "puzzle_input.txt")
+	content, err := os.ReadFile(path)
 	if err != nil {
 		return nil, fmt.Errorf("failed to load day %d resources: %w", day, err)
 	}
